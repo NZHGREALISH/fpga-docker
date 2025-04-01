@@ -1,0 +1,19 @@
+services:
+  fpga-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/project
+    ports:
+      - "22:22" # 如果需要SSH访问
+    environment:
+      - INSTALL=/opt/intelFPGA_lite/23.1std
+      - TZ=Asia/Shanghai
+    devices:
+      - /dev/bus/usb:/dev/bus/usb # 如果需要访问USB设备
+    privileged: true # 如果需要访问硬件设备
+    tty: true
+    stdin_open: true
+    restart: unless-stopped
+    command: tail -f /dev/null
